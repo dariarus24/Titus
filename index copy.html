@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7d3ca0">
+  <title>La mulți ani! Titus & Mirela</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #FF9192;
+      --ink: #fff8ff;
+      --muted: rgba(255, 248, 255, 0.78);
+      --pink: #f7a59c;
+      --pink-light: #ffc2b8;
+      --purple: #70428e;
+      --purple-dark: #321d46;
+      --ribbon: #d94338;
+      --ticket-ink: #542147;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "SF Pro Display", "Helvetica Neue", Arial, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding:
+        max(1.25rem, env(safe-area-inset-top))
+        max(1.25rem, env(safe-area-inset-right))
+        max(1.25rem, env(safe-area-inset-bottom))
+        max(1.25rem, env(safe-area-inset-left));
+    }
+
+    main {
+      width: min(100%, 44rem);
+      text-align: center;
+    }
+
+    h1, h2, p { margin-top: 0; }
+    h1, h2 {
+      font-family: inherit;
+      text-shadow: 0 3px 18px rgba(59, 14, 76, .3);
+    }
+    h1 {
+      margin-bottom: .7rem;
+      font-size: clamp(1.72rem, 7.1vw, 3.4rem);
+      font-weight: 760;
+      letter-spacing: -.045em;
+      line-height: 1.05;
+      white-space: nowrap;
+    }
+    h2 { margin-bottom: 1rem; font-size: clamp(2.25rem, 9vw, 3.5rem); font-weight: 760; letter-spacing: -.04em; }
+    .lead { margin-bottom: 1.35rem; color: var(--muted); font-size: clamp(.98rem, 3.8vw, 1.12rem); }
+
+    .gift-stage {
+      width: min(25rem, 92vw);
+      height: min(25rem, 92vw);
+      width: min(25rem, 92vw, max(12rem, calc(100svh - 10rem)));
+      height: min(25rem, 92vw, max(12rem, calc(100svh - 10rem)));
+      width: min(25rem, 92vw, max(12rem, calc(100dvh - 10rem)));
+      height: min(25rem, 92vw, max(12rem, calc(100dvh - 10rem)));
+      margin: 0 auto;
+      display: grid;
+      place-items: end center;
+      perspective: 1000px;
+    }
+
+    .gift-button {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+      filter: drop-shadow(0 1.5rem 1.35rem rgba(40, 17, 49, .27));
+      animation: float 2.5s ease-in-out infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gift-button::after {
+      content: "";
+      position: absolute;
+      left: 18%; right: 18%; bottom: 2.2rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: rgba(48, 12, 58, .24);
+      filter: blur(.45rem);
+      animation: shadowPulse 2.5s ease-in-out infinite;
+    }
+    .gift-button:focus-visible { outline: 3px solid white; outline-offset: 10px; border-radius: 1rem; }
+
+    .gift-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .gift-button.opening { animation: giftPop .7s ease both; pointer-events: none; }
+    .gift-button.opening .gift-image { animation: imageOpen .7s cubic-bezier(.2,.8,.25,1) forwards; }
+
+    .surprise[hidden] { display: none; }
+    .surprise.revealing { animation: reveal .7s cubic-bezier(.2,.8,.2,1) both; }
+
+    .ticket {
+      position: relative;
+      width: min(100%, 28rem);
+      min-height: 15rem;
+      margin: 0 auto 1.35rem;
+      padding: 1.8rem 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.38);
+      border-radius: 1.35rem;
+      background:
+        radial-gradient(circle at 82% 100%, rgba(255, 88, 83, .72), transparent 48%),
+        radial-gradient(circle at 8% 12%, rgba(255,255,255,.13), transparent 36%),
+        linear-gradient(155deg, rgba(36, 29, 34, .78), rgba(63, 32, 47, .72) 54%, rgba(116, 38, 52, .67));
+      color: #fff;
+      box-shadow:
+        0 1.6rem 3.8rem rgba(73, 33, 39, .34),
+        0 .15rem .6rem rgba(255,255,255,.18) inset,
+        0 0 0 .5px rgba(255,255,255,.34) inset;
+      backdrop-filter: blur(32px) saturate(145%);
+      -webkit-backdrop-filter: blur(32px) saturate(145%);
+      transform: rotate(-1deg);
+    }
+    .ticket::selection { background: rgba(181, 64, 112, .2); }
+    .ticket::before, .ticket::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 1.65rem; height: 1.65rem;
+      border-radius: 50%;
+      background: var(--bg);
+      transform: translateY(-50%);
+      box-shadow: inset 0 0 .5rem rgba(70,12,77,.15);
+    }
+    .ticket::before { left: -.85rem; }
+    .ticket::after { right: -.85rem; }
+    .ticket-label {
+      margin-bottom: .7rem;
+      color: rgba(255,255,255,.7);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .ticket-image {
+      display: block;
+      width: min(100%, 28rem);
+      max-width: 100%;
+      margin: 0 auto 1.35rem;
+      border-radius: 1.35rem;
+      box-shadow: 0 1.6rem 3.8rem rgba(73, 33, 39, .34);
+      object-fit: contain;
+    }
+    .ticket h3 { margin: 0; font-family: inherit; font-size: clamp(2.2rem, 9vw, 3.35rem); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+    .tour-name { margin: .45rem 0 0; color: rgba(255,255,255,.7); font-size: .98rem; font-weight: 700; }
+    .ticket-divider { width: 100%; margin: 1.15rem 0; border: 0; border-top: 1px solid rgba(255,255,255,.24); }
+    .event-details { display: grid; gap: .65rem; text-align: left; }
+    .detail { margin: 0; }
+    .detail-label {
+      display: block;
+      margin-bottom: .14rem;
+      color: rgba(255,255,255,.5);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .detail-value { display: block; color: #fff; font-size: .98rem; font-weight: 720; line-height: 1.28; }
+    .seat-row { display: grid; grid-template-columns: 1.35fr .7fr 1fr; gap: .55rem; }
+    .seat-row .detail {
+      padding: .65rem .7rem;
+      border-radius: .75rem;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.08);
+    }
+    .music-note { position: absolute; right: 1.35rem; top: 1rem; color: rgba(255,255,255,.12); font-size: 4rem; transform: rotate(8deg); }
+
+    .reset-button {
+      min-height: 3.35rem;
+      padding: .85rem 1.4rem;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      box-shadow: 0 .55rem 1.4rem rgba(51, 15, 63, .18);
+      color: white;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform .2s ease, background .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .reset-button:hover { background: rgba(255,255,255,.25); transform: translateY(-2px); }
+    .reset-button:active { transform: translateY(1px) scale(.98); }
+    .reset-button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+
+    #confetti {
+      position: fixed;
+      z-index: 20;
+      inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-.75rem) scale(1.018); }
+    }
+    @keyframes shadowPulse {
+      0%, 100% { transform: scale(1); opacity: .9; }
+      50% { transform: scale(.82); opacity: .55; }
+    }
+    @keyframes giftPop { 0% { transform: scale(1); } 35% { transform: scale(1.08) rotate(-2deg); } 100% { transform: scale(.92); } }
+    @keyframes imageOpen { 55% { transform: translateY(-1rem) scale(1.08); } 100% { transform: translateY(-2.5rem) scale(.82); opacity: 0; } }
+    @keyframes reveal { from { opacity: 0; transform: translateY(1.5rem) scale(.95); } to { opacity: 1; transform: none; } }
+
+    @media (max-height: 720px) {
+      h1 { font-size: clamp(1.72rem, 7.1vw, 2.5rem); }
+      .lead { margin-bottom: .7rem; }
+      .ticket { min-height: auto; padding-block: 1.35rem; }
+    }
+
+    @media (max-width: 370px) {
+      h1 { font-size: 1.55rem; }
+      .seat-row { grid-template-columns: 1fr 1fr; }
+      .seat-row .detail:first-child { grid-column: 1 / -1; }
+    }
+
+    @media (min-width: 700px) {
+      .ticket { padding: 2.2rem 2.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+      .gift-button { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main>
+      <section id="intro" aria-labelledby="birthday-title">
+        <h1 id="birthday-title">La multi ani! <br>Titus & Mirela</h1>
+        <p class="lead">Click the gift to reveal your surprise</p>
+
+        <div class="gift-stage">
+          <button class="gift-button" id="gift" type="button" aria-label="Open Tudor's birthday gift">
+            <img class="gift-image" src="gift.png" alt="" aria-hidden="true" draggable="false">
+          </button>
+        </div>
+      </section>
+
+      <section class="surprise" id="surprise" aria-labelledby="surprise-title" hidden>
+        <h2 id="surprise-title">Surprise! 🎶</h2>
+        <article class="ticket" aria-label="SpaceX action card">
+          <span class="music-note" aria-hidden="true">♪</span>
+          <p class="ticket-label">O acțiune</p>
+          <h3>SpaceX</h3>
+          <p class="tour-name">Investiție specială</p>
+          <hr class="ticket-divider">
+          <div class="event-details">
+            <p class="detail">
+              <span class="detail-label">Simbol</span>
+              <span class="detail-value">$SPCE</span>
+            </p>
+            <p class="detail">
+              <span class="detail-label">Data</span>
+              <span class="detail-value">Astăzi · Acțiunea ta este pregătită</span>
+            </p>
+            <p class="detail">
+              <span class="detail-label">Tip</span>
+              <span class="detail-value">O acțiune SpaceX</span>
+            </p>
+            <div class="seat-row" aria-label="Detalii suplimentare">
+              <p class="detail"><span class="detail-label">Tranzacție</span><span class="detail-value">Confirmată</span></p>
+              <p class="detail"><span class="detail-label">Valoare</span><span class="detail-value">1 unitate</span></p>
+            </div>
+          </div>
+        </article>
+        <button class="reset-button" id="reset" type="button">Open your gift again</button>
+      </section>
+    </main>
+  </div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const gift = document.getElementById('gift');
+    const surprise = document.getElementById('surprise');
+    const reset = document.getElementById('reset');
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let particles = [];
+    let animationFrame = 0;
+
+    function sizeCanvas() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = window.innerWidth * ratio;
+      canvas.height = window.innerHeight * ratio;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function launchConfetti() {
+      if (reduceMotion.matches) return;
+
+      cancelAnimationFrame(animationFrame);
+      const colors = ['#ffef9f', '#ffffff', '#ff77ae', '#d7a8ff', '#8ff1e4'];
+      particles = Array.from({ length: 78 }, () => ({
+        x: window.innerWidth / 2 + (Math.random() - .5) * 80,
+        y: window.innerHeight * .38,
+        vx: (Math.random() - .5) * 10,
+        vy: -5 - Math.random() * 7,
+        gravity: .18 + Math.random() * .09,
+        size: 5 + Math.random() * 7,
+        rotation: Math.random() * Math.PI,
+        spin: (Math.random() - .5) * .24,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 1
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.vx *= .992;
+          p.rotation += p.spin;
+          p.life -= .009;
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * .65);
+          ctx.restore();
+        });
+
+        particles = particles.filter((p) => p.life > 0 && p.y < window.innerHeight + 30);
+        if (particles.length) animationFrame = requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+
+      draw();
+    }
+
+    function openGift() {
+      if (gift.classList.contains('opening')) return;
+      gift.classList.add('opening');
+      launchConfetti();
+
+      window.setTimeout(() => {
+        intro.hidden = true;
+        surprise.hidden = false;
+        surprise.classList.add('revealing');
+        reset.focus({ preventScroll: true });
+      }, reduceMotion.matches ? 20 : 650);
+    }
+
+    function resetGift() {
+      cancelAnimationFrame(animationFrame);
+      particles = [];
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      surprise.hidden = true;
+      surprise.classList.remove('revealing');
+      intro.hidden = false;
+      gift.classList.remove('opening');
+      gift.focus({ preventScroll: true });
+    }
+
+    gift.addEventListener('click', openGift);
+    reset.addEventListener('click', resetGift);
+    window.addEventListener('resize', sizeCanvas, { passive: true });
+    sizeCanvas();
+  </script>
+</body>
+</html>
